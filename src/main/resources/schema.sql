@@ -1,0 +1,14 @@
+CREATE DATABASE IF NOT EXISTS url_shortener_db;
+
+USE url_shortener_db;
+
+CREATE TABLE urls (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  url VARCHAR(2083) NOT NULL,
+  short_code VARCHAR(100) NOT NULL,
+  access_count BIGINT DEFAULT 0,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  UNIQUE INDEX idx_shortcode (short_code),
+  INDEX idx_url (url(200))
+);
