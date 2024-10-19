@@ -1,0 +1,36 @@
+services:
+  url-shortener-app:
+    container_name: url-shortener-app-container
+    build: .
+    image: url-shortener-app:v0.0.1
+    ports:
+      - "8080:8080"
+    depends_on:
+      url-shortener-db:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://url-shortener-db:3306/url_shortener_db
+      SPRING_DATASOURCE_USERNAME: ${DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${DATASOURCE_PASSWORD}
+    volumes:
+      - maven-repo:/root/.m2
+
+  url-shortener-db:
+    container_name: mysql-db-container
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DATASOURCE_PASSWORD}
+    healthcheck:
+      test: [ "CMD","mysqladmin","ping","-h","url-shortener-db","-u","root","-p${DATASOURCE_PASSWORD}" ]
+      start_period: 10s
+      interval: 10s
+      retries: 10
+      timeout: 3s
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./src/main/resources/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+volumes:
+  mysql-data:
+  maven-repo:
