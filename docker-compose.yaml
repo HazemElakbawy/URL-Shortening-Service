@@ -2,7 +2,7 @@ services:
   url-shortener-app:
     container_name: url-shortener-app-container
     build: .
-    image: url-shortener-app:v0.0.1
+    image: hazemmagdy/url-shortener-app:v1.0.0
     ports:
       - "8080:8080"
     depends_on:
