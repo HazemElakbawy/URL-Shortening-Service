@@ -23,6 +23,7 @@
 - Access count tracking for each shortened URL
 - Create, update, and delete shortened URLs
 - API documentation available through Swagger UI
+- Error handling for various exceptions with consistent error response structure
 
 ## Prerequisites ⚙️
 

@@ -3,6 +3,7 @@ package com.hazem.urlshortener.service;
 import com.hazem.urlshortener.dto.UrlRequest;
 import com.hazem.urlshortener.dto.UrlResponse;
 import com.hazem.urlshortener.entity.Url;
+import com.hazem.urlshortener.exception.custom.UrlNotFoundException;
 import com.hazem.urlshortener.repository.UrlRepository;
 import com.hazem.urlshortener.utility.ShortCodeGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class UrlService {
   }
 
   public Url getUrlByShortCode(String shortCode) {
-    return repo.findByShortCode(shortCode).orElseThrow(RuntimeException::new);
+    return repo.findByShortCode(shortCode).orElseThrow(() -> new UrlNotFoundException());
   }
 
   @Transactional
